@@ -1,9 +1,10 @@
 # DESIGN.md — DILEMMA (Clinical Decision Simulator for Personal Trainers)
 
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Created**: 2026-04-08
-**Reference Companies**: Claude (AI warmth), Linear (dark-mode-native SaaS), Stripe (professional precision)
-**DNA Inheritance**: Deep Space (#0D1117) + Strava Orange (#FC4C02) + "Complexity to Clarity"
+**Updated**: 2026-04-08 (Light/Dark dual mode support)
+**Reference Companies**: Claude (AI warmth + dual theme), Linear (dark-mode SaaS), Stripe (professional precision)
+**DNA Inheritance**: Deep Space (#0D1117) / Clean White (#FAFBFC) + Strava Orange (#FC4C02) + "Complexity to Clarity"
 
 ---
 
@@ -12,39 +13,48 @@
 DILEMMA is a clinical decision simulator, not a game. The visual identity communicates:
 
 - **Professional gravity**: The interface must feel like a medical-grade simulation tool, not gamified entertainment
-- **Dark-mode-native**: Following Linear's approach, dark mode is the primary and only mode. Deep Space (#0D1117) backgrounds reduce eye strain during extended learning sessions
+- **Light/Dark dual theme**: System preference auto-detection with manual toggle. Dark mode (Deep Space #0D1117) for extended sessions, Light mode (Clean White #FAFBFC) for classroom/daytime use. Both share the same layout and information architecture
 - **Controlled tension**: Orange accents (#FC4C02) create urgency without alarm. Red appears only for genuine danger (injury states)
 - **Information density with clarity**: Stripe's principle of "dense data, generous chrome" applies directly. The 3-column simulation layout packs critical data while maintaining readable whitespace
 - **Trust through restraint**: Typography is clean and unstyled. No decorative elements. Every pixel serves a clinical or navigational purpose
 
 First impression: A trainee opening DILEMMA should feel like entering a flight simulator cockpit — serious, capable, and slightly intimidating in the best way.
 
-Tone keywords: Clinical, Authoritative, Focused, Dark, Warm-accented
+Tone keywords: Clinical, Authoritative, Focused, Adaptive, Warm-accented
 
 ---
 
 ## 2. Color Palette & Roles
 
-### Background Hierarchy (Linear-inspired luminance stepping)
+### Theme Strategy
 
-| Token | Hex | Role |
-|-------|-----|------|
-| bg-primary | #0D1117 | App background, page canvas |
-| bg-elevated | #161B22 | Cards, panels, sidebar backgrounds |
-| bg-surface | #1C2128 | Elevated containers, modals, dropdowns |
-| bg-hover | #21262D | Hover states on dark surfaces |
-| bg-active | #282E36 | Active/pressed states |
+DILEMMA supports **Light and Dark themes** via CSS custom properties (`--color-*`). Theme is determined by:
+1. System preference (`prefers-color-scheme`) on first visit
+2. User manual toggle (persisted in localStorage)
+3. CSS class `dark` on `<html>` element (Tailwind v4 darkMode: 'class')
+
+All component styles reference CSS variables, never raw hex values.
+
+### Background Hierarchy
+
+| Token | Light Mode | Dark Mode | Role |
+|-------|-----------|-----------|------|
+| bg-primary | #FAFBFC | #0D1117 | App background, page canvas |
+| bg-elevated | #FFFFFF | #161B22 | Cards, panels, sidebar backgrounds |
+| bg-surface | #F3F4F6 | #1C2128 | Elevated containers, modals, dropdowns |
+| bg-hover | #E5E7EB | #21262D | Hover states |
+| bg-active | #D1D5DB | #282E36 | Active/pressed states |
 
 ### Foreground / Text
 
-| Token | Hex | Opacity | Role |
-|-------|-----|---------|------|
-| text-primary | #E6EDF3 | 100% | Headings, primary content |
-| text-secondary | #8B949E | 100% | Descriptions, labels, secondary info |
-| text-tertiary | #6E7681 | 100% | Disabled text, placeholders |
-| text-on-accent | #FFFFFF | 100% | Text on orange/colored backgrounds |
+| Token | Light Mode | Dark Mode | Role |
+|-------|-----------|-----------|------|
+| text-primary | #1F2328 | #E6EDF3 | Headings, primary content |
+| text-secondary | #656D76 | #8B949E | Descriptions, labels, secondary info |
+| text-tertiary | #8C959F | #6E7681 | Disabled text, placeholders |
+| text-on-accent | #FFFFFF | #FFFFFF | Text on orange/colored backgrounds |
 
-### Brand Accent (Strava Orange DNA)
+### Brand Accent (Strava Orange DNA — shared across themes)
 
 | Token | Hex | Role |
 |-------|-----|------|
@@ -61,35 +71,35 @@ Tone keywords: Clinical, Authoritative, Focused, Dark, Warm-accented
 
 ### Semantic Colors
 
-| Token | Hex | Role |
-|-------|-----|------|
-| success | #2EA043 | Good outcomes, green timeline nodes, positive radar changes |
-| success-muted | rgba(46,160,67,0.15) | Success backgrounds |
-| warning | #D29922 | Caution states, yellow timeline nodes, risk thresholds approaching |
-| warning-muted | rgba(210,153,34,0.15) | Warning backgrounds |
-| danger | #F85149 | Injury events, red timeline nodes, danger thresholds exceeded |
-| danger-muted | rgba(248,81,73,0.15) | Danger backgrounds |
-| info | #58A6FF | Informational, links, neutral interactive elements |
-| info-muted | rgba(88,166,255,0.15) | Info backgrounds |
+| Token | Light Mode | Dark Mode | Role |
+|-------|-----------|-----------|------|
+| success | #1A7F37 | #2EA043 | Good outcomes, green timeline nodes |
+| success-muted | rgba(26,127,55,0.10) | rgba(46,160,67,0.15) | Success backgrounds |
+| warning | #9A6700 | #D29922 | Caution states, yellow timeline nodes |
+| warning-muted | rgba(154,103,0,0.10) | rgba(210,153,34,0.15) | Warning backgrounds |
+| danger | #CF222E | #F85149 | Injury events, red timeline nodes |
+| danger-muted | rgba(207,34,46,0.10) | rgba(248,81,73,0.15) | Danger backgrounds |
+| info | #0969DA | #58A6FF | Informational, links |
+| info-muted | rgba(9,105,218,0.10) | rgba(88,166,255,0.15) | Info backgrounds |
 
 ### Radar Chart Colors
 
-| Token | Hex | Role |
-|-------|-----|------|
-| radar-current | #FC4C02 | Current values (filled polygon, brand orange) |
-| radar-current-fill | rgba(252,76,2,0.20) | Current values fill area |
-| radar-target | #8B949E | Target values (gray dashed line) |
-| radar-danger | #F85149 | Danger threshold (red dashed line) |
-| radar-axis | #30363D | Axis lines and grid |
-| radar-label | #8B949E | Axis labels |
+| Token | Light Mode | Dark Mode | Role |
+|-------|-----------|-----------|------|
+| radar-current | #FC4C02 | #FC4C02 | Current values (filled polygon) |
+| radar-current-fill | rgba(252,76,2,0.15) | rgba(252,76,2,0.20) | Current values fill area |
+| radar-target | #656D76 | #8B949E | Target values (gray dashed line) |
+| radar-danger | #CF222E | #F85149 | Danger threshold (red dashed line) |
+| radar-axis | #D0D7DE | #30363D | Axis lines and grid |
+| radar-label | #656D76 | #8B949E | Axis labels |
 
 ### Border & Separator
 
-| Token | Hex | Role |
-|-------|-----|------|
-| border-default | #30363D | Default borders, dividers |
-| border-muted | #21262D | Subtle separators |
-| border-accent | #FC4C02 | Active/focused borders |
+| Token | Light Mode | Dark Mode | Role |
+|-------|-----------|-----------|------|
+| border-default | #D0D7DE | #30363D | Default borders, dividers |
+| border-muted | #E5E7EB | #21262D | Subtle separators |
+| border-accent | #FC4C02 | #FC4C02 | Active/focused borders |
 
 ---
 
@@ -153,24 +163,24 @@ Focus-visible: 2px solid #FC4C02, offset 2px
 
 ### Card
 
-- Background: #161B22
-- Border: 1px solid #30363D
+- Background: var(--bg-elevated) — Light: #FFFFFF / Dark: #161B22
+- Border: 1px solid var(--border-default)
 - Border radius: 8px
 - Padding: 20px (md), 16px (sm)
-- Shadow: none (Linear approach: luminance stepping, not shadows)
+- Shadow: Light mode: 0 1px 3px rgba(0,0,0,0.08). Dark mode: none (luminance stepping)
 - Hover (if interactive): border-color transitions to #FC4C02 at 50% opacity
 
 ### Input / Text Field
 
-- Background: #0D1117
-- Border: 1px solid #30363D
+- Background: var(--bg-primary) — Light: #FAFBFC / Dark: #0D1117
+- Border: 1px solid var(--border-default)
 - Border radius: 6px
 - Height: 40px
 - Padding: 0 12px
-- Text: #E6EDF3
-- Placeholder: #6E7681
+- Text: var(--text-primary)
+- Placeholder: var(--text-tertiary)
 - Focus: border-color #FC4C02, box-shadow 0 0 0 3px rgba(252,76,2,0.2)
-- Error: border-color #F85149, box-shadow 0 0 0 3px rgba(248,81,73,0.2)
+- Error: border-color var(--danger), box-shadow 0 0 0 3px rgba(var(--danger-rgb),0.2)
 
 ### Badge / Tag
 
@@ -188,13 +198,13 @@ Difficulty badges:
 
 ### Chat Bubble (Debate UI)
 
-| Sender | Background | Border | Alignment |
-|--------|-----------|--------|-----------|
-| User | #161B22 | 1px solid #30363D | Right |
-| S&C AI | rgba(252,76,2,0.08) | 1px solid rgba(252,76,2,0.2) | Left |
-| AT AI | rgba(46,160,67,0.08) | 1px solid rgba(46,160,67,0.2) | Left |
-| Client AI | rgba(210,153,34,0.08) | 1px solid rgba(210,153,34,0.2) | Left |
-| Mentor AI | rgba(88,166,255,0.08) | 1px solid rgba(88,166,255,0.2) | Left |
+| Sender | Background (Light) | Background (Dark) | Border | Alignment |
+|--------|-------------------|-------------------|--------|-----------|
+| User | #F3F4F6 | #161B22 | 1px solid var(--border-default) | Right |
+| S&C AI | rgba(252,76,2,0.06) | rgba(252,76,2,0.08) | 1px solid rgba(252,76,2,0.2) | Left |
+| AT AI | rgba(26,127,55,0.06) | rgba(46,160,67,0.08) | 1px solid rgba(var(--success-rgb),0.2) | Left |
+| Client AI | rgba(154,103,0,0.06) | rgba(210,153,34,0.08) | 1px solid rgba(var(--warning-rgb),0.2) | Left |
+| Mentor AI | rgba(9,105,218,0.06) | rgba(88,166,255,0.08) | 1px solid rgba(var(--info-rgb),0.2) | Left |
 
 Border radius: 12px (with 4px on the sender's corner)
 Max width: 80% of chat container
@@ -202,8 +212,8 @@ Padding: 12px 16px
 
 ### Modal / Dialog
 
-- Overlay: rgba(0,0,0,0.6) with backdrop-filter: blur(4px)
-- Background: #161B22
+- Overlay: Light: rgba(0,0,0,0.3) / Dark: rgba(0,0,0,0.6) with backdrop-filter: blur(4px)
+- Background: var(--bg-elevated)
 - Border: 1px solid #30363D
 - Border radius: 12px
 - Padding: 24px
@@ -212,15 +222,15 @@ Padding: 12px 16px
 
 ### Sidebar / Navigation
 
-- Background: #0D1117
+- Background: var(--bg-primary)
 - Width: 240px (desktop), collapsible
-- Border right: 1px solid #21262D
+- Border right: 1px solid var(--border-muted)
 - Nav item height: 36px
 - Nav item padding: 8px 12px
-- Nav item hover: #161B22 background
-- Nav item active: #21262D background + #FC4C02 left border (2px)
+- Nav item hover: var(--bg-elevated) background
+- Nav item active: var(--bg-hover) background + #FC4C02 left border (2px)
 - Icon size: 16px
-- Icon color: #8B949E (default), #E6EDF3 (active)
+- Icon color: var(--text-secondary) (default), var(--text-primary) (active)
 
 ### Timeline Node (Time Travel)
 
@@ -285,21 +295,32 @@ Following "Complexity to Clarity" and Stripe's "dense data, generous chrome":
 
 ## 6. Depth & Elevation
 
-DILEMMA follows Linear's approach: luminance stepping rather than box shadows. Depth is communicated through background color changes, not drop shadows.
+### Dark Mode: Luminance stepping (Linear approach)
+Depth is communicated through background color changes, not drop shadows.
 
-| Level | Background | Usage |
-|-------|-----------|-------|
+| Level | Background (Dark) | Usage |
+|-------|------------------|-------|
 | Base | #0D1117 | Page background, deepest layer |
 | Raised | #161B22 | Cards, panels, sidebar |
 | Elevated | #1C2128 | Modals, dropdowns, floating elements |
 | Overlay | #21262D | Tooltips, popovers |
 
-Exceptions where shadows are used:
-- Modal overlay: rgba(0,0,0,0.6) backdrop
-- Dropdown menus: 0 8px 24px rgba(0,0,0,0.4) for floating detachment
-- Toast notifications: 0 4px 12px rgba(0,0,0,0.3)
+### Light Mode: Subtle shadows + white elevation
+Depth is communicated through white backgrounds with soft box-shadows.
 
-Border treatment: 1px solid borders at each elevation level provide clear edge definition. Border color lightens with elevation (#21262D at base, #30363D at raised, #3D444D at elevated).
+| Level | Background (Light) | Shadow (Light) | Usage |
+|-------|-------------------|----------------|-------|
+| Base | #FAFBFC | none | Page background |
+| Raised | #FFFFFF | 0 1px 3px rgba(0,0,0,0.08) | Cards, panels, sidebar |
+| Elevated | #FFFFFF | 0 4px 12px rgba(0,0,0,0.10) | Modals, dropdowns |
+| Overlay | #FFFFFF | 0 8px 24px rgba(0,0,0,0.12) | Tooltips, popovers |
+
+### Shared exceptions:
+- Modal overlay: Dark: rgba(0,0,0,0.6) / Light: rgba(0,0,0,0.3) backdrop
+- Dropdown menus: Dark: 0 8px 24px rgba(0,0,0,0.4) / Light: 0 8px 24px rgba(0,0,0,0.12)
+- Toast notifications: Dark: 0 4px 12px rgba(0,0,0,0.3) / Light: 0 4px 12px rgba(0,0,0,0.08)
+
+Border treatment: 1px solid borders at each elevation level. Dark mode: border color lightens with elevation. Light mode: border color darkens subtly.
 
 ---
 
@@ -307,7 +328,7 @@ Border treatment: 1px solid borders at each elevation level provide clear edge d
 
 ### Do
 
-- Use #0D1117 as the base background everywhere. Never use pure black (#000000)
+- Always use CSS variables (var(--bg-primary), etc.) for theme-aware colors. Never hardcode hex values in components
 - Keep orange (#FC4C02) reserved for primary CTAs and active indicators. One orange element per viewport section maximum
 - Use luminance stepping for depth. Lighter = more elevated
 - Maintain 1px borders on all card and panel edges for clarity
@@ -325,7 +346,7 @@ Border treatment: 1px solid borders at each elevation level provide clear edge d
 - Don't add decorative illustrations or icons. Every visual element must carry information
 - Don't use box shadows for standard card elevation. Luminance stepping only
 - Don't reduce spacing below 4px between any interactive elements
-- Don't use light mode. DILEMMA is dark-mode only
+- Don't forget to test both Light and Dark modes for every component. Both must pass WCAG AA contrast
 - Don't animate anything for longer than 400ms. Clinical tools must feel instant
 - Don't use colored backgrounds for large areas. Backgrounds are always from the bg- palette
 - Don't gamify the interface. No confetti, no achievement popups, no streaks. Progress is shown through skill radar improvement
@@ -407,29 +428,40 @@ This DESIGN.md is the single source of truth for all visual decisions in the DIL
 ### Quick Token Reference
 
 ```
-Primary BG:     #0D1117
-Card BG:        #161B22
-Border:         #30363D
-Text Primary:   #E6EDF3
-Text Secondary: #8B949E
-Accent:         #FC4C02
-Success:        #2EA043
-Warning:        #D29922
-Danger:         #F85149
-Info:           #58A6FF
+                    Light       Dark
+Primary BG:         #FAFBFC     #0D1117
+Card BG:            #FFFFFF     #161B22
+Border:             #D0D7DE     #30363D
+Text Primary:       #1F2328     #E6EDF3
+Text Secondary:     #656D76     #8B949E
+Accent (shared):    #FC4C02
+Success:            #1A7F37     #2EA043
+Warning:            #9A6700     #D29922
+Danger:             #CF222E     #F85149
+Info:               #0969DA     #58A6FF
 ```
 
 ### Contrast Ratios (Verified WCAG AA)
+
+**Dark Mode:**
 
 | Foreground | Background | Ratio | Pass |
 |-----------|-----------|-------|------|
 | #E6EDF3 on #0D1117 | text-primary on bg-primary | 13.2:1 | AAA |
 | #E6EDF3 on #161B22 | text-primary on bg-elevated | 11.1:1 | AAA |
 | #8B949E on #0D1117 | text-secondary on bg-primary | 5.0:1 | AA |
-| #8B949E on #161B22 | text-secondary on bg-elevated | 4.2:1 | AA |
 | #FFFFFF on #FC4C02 | text-on-accent on accent | 3.6:1 | AA-Large |
 | #FFFFFF on #D94000 | text-on-accent on accent-hover | 4.5:1 | AA |
-| #FC4C02 on #0D1117 | accent on bg-primary | 3.7:1 | AA-Large |
+
+**Light Mode:**
+
+| Foreground | Background | Ratio | Pass |
+|-----------|-----------|-------|------|
+| #1F2328 on #FAFBFC | text-primary on bg-primary | 14.7:1 | AAA |
+| #1F2328 on #FFFFFF | text-primary on bg-elevated | 15.4:1 | AAA |
+| #656D76 on #FAFBFC | text-secondary on bg-primary | 5.3:1 | AA |
+| #FFFFFF on #FC4C02 | text-on-accent on accent | 3.6:1 | AA-Large |
+| #FFFFFF on #D94000 | text-on-accent on accent-hover | 4.5:1 | AA |
 
 Note: White on FC4C02 passes AA for large text (18px+ or 14px bold). For small text buttons, use #D94000 background or pair with adequate size (16px weight 600+).
 
@@ -440,3 +472,4 @@ Note: White on FC4C02 passes AA for large text (18px+ or 14px bold). For small t
 | Date | Version | Changes |
 |------|---------|---------|
 | 2026-04-08 | 1.0.0 | Initial DESIGN.md. References: Claude (warmth patterns), Linear (dark-mode luminance), Stripe (data density). DNA: Deep Space + Strava Orange + Complexity to Clarity |
+| 2026-04-08 | 1.1.0 | Light/Dark dual theme support. All tokens now have Light/Dark variants. Light mode: Clean White (#FAFBFC) + subtle shadows. Dark mode: Deep Space (#0D1117) + luminance stepping. System preference auto-detect + manual toggle |

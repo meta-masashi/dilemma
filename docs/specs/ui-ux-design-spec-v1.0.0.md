@@ -13,63 +13,140 @@
 
 DESIGN.md Section 2-3 から派生。Tailwind CSS v4 の CSS-first 設定方式に対応。
 
-```typescript
-// tailwind.config.ts に反映するデザイントークン定義
-// Tailwind v4 では @theme ディレクティブで CSS 変数として定義
+```css
+/* app/globals.css — Tailwind v4 CSS-first テーマ定義 */
+/* Light/Dark dual theme: CSS変数ベース、darkMode: 'class' */
 
+@layer base {
+  :root {
+    /* Background Hierarchy — Light Mode */
+    --bg-primary:  #FAFBFC;
+    --bg-elevated: #FFFFFF;
+    --bg-surface:  #F3F4F6;
+    --bg-hover:    #E5E7EB;
+    --bg-active:   #D1D5DB;
+    /* Text — Light Mode */
+    --text-primary:   #1F2328;
+    --text-secondary: #656D76;
+    --text-tertiary:  #8C959F;
+    --text-on-accent: #FFFFFF;
+    /* Semantic — Light Mode */
+    --success:       #1A7F37;
+    --success-muted: rgba(26,127,55,0.10);
+    --warning:       #9A6700;
+    --warning-muted: rgba(154,103,0,0.10);
+    --danger:        #CF222E;
+    --danger-muted:  rgba(207,34,46,0.10);
+    --info:          #0969DA;
+    --info-muted:    rgba(9,105,218,0.10);
+    /* Radar — Light Mode */
+    --radar-current:      #FC4C02;
+    --radar-current-fill: rgba(252,76,2,0.15);
+    --radar-target:       #656D76;
+    --radar-danger:       #CF222E;
+    --radar-axis:         #D0D7DE;
+    --radar-label:        #656D76;
+    /* Border — Light Mode */
+    --border-default: #D0D7DE;
+    --border-muted:   #E5E7EB;
+    --border-accent:  #FC4C02;
+    /* Shadow — Light Mode */
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-elevated: 0 4px 12px rgba(0,0,0,0.10);
+    --shadow-overlay: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  .dark {
+    /* Background Hierarchy — Dark Mode */
+    --bg-primary:  #0D1117;
+    --bg-elevated: #161B22;
+    --bg-surface:  #1C2128;
+    --bg-hover:    #21262D;
+    --bg-active:   #282E36;
+    /* Text — Dark Mode */
+    --text-primary:   #E6EDF3;
+    --text-secondary: #8B949E;
+    --text-tertiary:  #6E7681;
+    --text-on-accent: #FFFFFF;
+    /* Semantic — Dark Mode */
+    --success:       #2EA043;
+    --success-muted: rgba(46,160,67,0.15);
+    --warning:       #D29922;
+    --warning-muted: rgba(210,153,34,0.15);
+    --danger:        #F85149;
+    --danger-muted:  rgba(248,81,73,0.15);
+    --info:          #58A6FF;
+    --info-muted:    rgba(88,166,255,0.15);
+    /* Radar — Dark Mode */
+    --radar-current:      #FC4C02;
+    --radar-current-fill: rgba(252,76,2,0.20);
+    --radar-target:       #8B949E;
+    --radar-danger:       #F85149;
+    --radar-axis:         #30363D;
+    --radar-label:        #8B949E;
+    /* Border — Dark Mode */
+    --border-default: #30363D;
+    --border-muted:   #21262D;
+    --border-accent:  #FC4C02;
+    /* Shadow — Dark Mode (luminance stepping, minimal shadows) */
+    --shadow-card: none;
+    --shadow-elevated: none;
+    --shadow-overlay: 0 8px 24px rgba(0,0,0,0.4);
+  }
+}
+```
+
+```typescript
+// designTokens（Tailwind config用。CSS変数を参照）
 export const designTokens = {
   colors: {
-    // Background Hierarchy (luminance stepping)
+    // CSS変数を参照（Light/Dark自動切替）
     bg: {
-      primary:  '#0D1117',  // App background
-      elevated: '#161B22',  // Cards, panels
-      surface:  '#1C2128',  // Modals, dropdowns
-      hover:    '#21262D',  // Hover states
-      active:   '#282E36',  // Active/pressed
+      primary:  'var(--bg-primary)',
+      elevated: 'var(--bg-elevated)',
+      surface:  'var(--bg-surface)',
+      hover:    'var(--bg-hover)',
+      active:   'var(--bg-active)',
     },
-    // Foreground / Text
     text: {
-      primary:   '#E6EDF3', // Headings, main content
-      secondary: '#8B949E', // Descriptions, labels
-      tertiary:  '#6E7681', // Disabled, placeholders
-      onAccent:  '#FFFFFF', // Text on accent backgrounds
+      primary:   'var(--text-primary)',
+      secondary: 'var(--text-secondary)',
+      tertiary:  'var(--text-tertiary)',
+      onAccent:  'var(--text-on-accent)',
     },
-    // Brand Accent (Strava Orange DNA)
+    // Brand Accent (shared across themes)
     accent: {
       50:  '#FFF3EB',
       100: '#FFD9BF',
       200: '#FFB380',
       300: '#FF8C40',
       400: '#FC6B1F',
-      500: '#FC4C02', // Primary CTA, brand anchor
-      600: '#D94000', // Hover
-      700: '#B33500', // Pressed
+      500: '#FC4C02',
+      600: '#D94000',
+      700: '#B33500',
       800: '#802600',
       900: '#4D1700',
     },
-    // Semantic
-    success:       '#2EA043',
-    successMuted:  'rgba(46,160,67,0.15)',
-    warning:       '#D29922',
-    warningMuted:  'rgba(210,153,34,0.15)',
-    danger:        '#F85149',
-    dangerMuted:   'rgba(248,81,73,0.15)',
-    info:          '#58A6FF',
-    infoMuted:     'rgba(88,166,255,0.15)',
-    // Radar Chart
+    success:       'var(--success)',
+    successMuted:  'var(--success-muted)',
+    warning:       'var(--warning)',
+    warningMuted:  'var(--warning-muted)',
+    danger:        'var(--danger)',
+    dangerMuted:   'var(--danger-muted)',
+    info:          'var(--info)',
+    infoMuted:     'var(--info-muted)',
     radar: {
-      current:     '#FC4C02',
-      currentFill: 'rgba(252,76,2,0.20)',
-      target:      '#8B949E',
-      danger:      '#F85149',
-      axis:        '#30363D',
-      label:       '#8B949E',
+      current:     'var(--radar-current)',
+      currentFill: 'var(--radar-current-fill)',
+      target:      'var(--radar-target)',
+      danger:      'var(--radar-danger)',
+      axis:        'var(--radar-axis)',
+      label:       'var(--radar-label)',
     },
-    // Border
     border: {
-      default: '#30363D',
-      muted:   '#21262D',
-      accent:  '#FC4C02',
+      default: 'var(--border-default)',
+      muted:   'var(--border-muted)',
+      accent:  'var(--border-accent)',
     },
   },
   typography: {
