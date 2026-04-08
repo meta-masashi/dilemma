@@ -57,3 +57,7 @@ tmp/
 # Go (pace-inference)
 pace-inference/bin/
 pace-inference/*.exe
+node_modules/
+.next/
+.env.local
+package-lock.json

@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #fafbfc;
+    --bg-elevated: #ffffff;
+    --bg-surface: #f3f4f6;
+    --bg-hover: #e5e7eb;
+    --bg-active: #d1d5db;
+    --text-primary: #1f2328;
+    --text-secondary: #656d76;
+    --text-tertiary: #8c959f;
+    --text-on-accent: #ffffff;
+    --success: #1a7f37;
+    --success-muted: rgba(26, 127, 55, 0.1);
+    --warning: #9a6700;
+    --warning-muted: rgba(154, 103, 0, 0.1);
+    --danger: #cf222e;
+    --danger-muted: rgba(207, 34, 46, 0.1);
+    --info: #0969da;
+    --info-muted: rgba(9, 105, 218, 0.1);
+    --border-default: #d0d7de;
+    --border-muted: #e5e7eb;
+    --border-accent: #fc4c02;
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark {
+    --bg-primary: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-surface: #1c2128;
+    --bg-hover: #21262d;
+    --bg-active: #282e36;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-tertiary: #6e7681;
+    --text-on-accent: #ffffff;
+    --success: #2ea043;
+    --success-muted: rgba(46, 160, 67, 0.15);
+    --warning: #d29922;
+    --warning-muted: rgba(210, 153, 34, 0.15);
+    --danger: #f85149;
+    --danger-muted: rgba(248, 81, 73, 0.15);
+    --info: #58a6ff;
+    --info-muted: rgba(88, 166, 255, 0.15);
+    --border-default: #30363d;
+    --border-muted: #21262d;
+    --border-accent: #fc4c02;
+    --shadow-card: none;
+    --shadow-elevated: none;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: "Noto Sans JP", "Inter", -apple-system, BlinkMacSystemFont,
+      sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-active: var(--bg-active);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-accent-50: #fff3eb;
+  --color-accent-100: #ffd9bf;
+  --color-accent-200: #ffb380;
+  --color-accent-300: #ff8c40;
+  --color-accent-400: #fc6b1f;
+  --color-accent-500: #fc4c02;
+  --color-accent-600: #d94000;
+  --color-accent-700: #b33500;
+  --color-success: var(--success);
+  --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-muted: var(--warning-muted);
+  --color-danger: var(--danger);
+  --color-danger-muted: var(--danger-muted);
+  --color-info: var(--info);
+  --color-info-muted: var(--info-muted);
+  --color-border-default: var(--border-default);
+  --color-border-muted: var(--border-muted);
+  --color-border-accent: var(--border-accent);
+}
